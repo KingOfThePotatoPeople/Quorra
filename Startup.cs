@@ -28,7 +28,11 @@ namespace Quorra
         public void ConfigureServices(IServiceCollection services)
         {
             // DbContext
-            services.AddDbContext<QuorraDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<QuorraDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseOpenIddict();
+            });
             
             services.AddIdentity<QuorraUser, QuorraRole>()
                 .AddEntityFrameworkStores<QuorraDbContext>()
@@ -53,6 +57,46 @@ namespace Quorra
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
             });
+            
+            services.AddOpenIddict()
+
+                // Register the OpenIddict core components.
+                .AddCore(options =>
+                {
+                    // Configure OpenIddict to use the Entity Framework Core stores and models.
+                    // Note: call ReplaceDefaultEntities() to replace the default entities.
+                    options.UseEntityFrameworkCore()
+                        .UseDbContext<QuorraDbContext>()
+                        .ReplaceDefaultEntities<Guid>();
+                })
+
+                // Register the OpenIddict server components.
+                .AddServer(options =>
+                {
+                    // Enable the token endpoint.
+                    options.SetTokenEndpointUris("/connect/token");
+
+                    // Enable the client credentials flow.
+                    options.AllowClientCredentialsFlow();
+
+                    // Register the signing and encryption credentials.
+                    options.AddDevelopmentEncryptionCertificate()
+                        .AddDevelopmentSigningCertificate();
+
+                    // Register the ASP.NET Core host and configure the ASP.NET Core options.
+                    options.UseAspNetCore()
+                        .EnableTokenEndpointPassthrough();
+                })
+
+                // Register the OpenIddict validation components.
+                .AddValidation(options =>
+                {
+                    // Import the configuration from the local OpenIddict server instance.
+                    options.UseLocalServer();
+
+                    // Register the ASP.NET Core host.
+                    options.UseAspNetCore();
+                });
             
             // Controllers / SerializerSettings
             services.AddControllersWithViews()
@@ -90,12 +134,16 @@ namespace Quorra
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
             }
 
             app.UseRouting();
+            
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
