@@ -1,0 +1,2 @@
+# Quorra
+SSO using OpenIddict
