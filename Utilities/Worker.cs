@@ -13,19 +13,20 @@ namespace Quorra.Utilities
         private readonly IServiceProvider _serviceProvider;
 
         public Worker(IServiceProvider serviceProvider)
-            => _serviceProvider = serviceProvider;
-
+        {
+            _serviceProvider = serviceProvider;
+        }
+        
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             using IServiceScope scope = _serviceProvider.CreateScope();
 
             QuorraDbContext context = scope.ServiceProvider.GetRequiredService<QuorraDbContext>();
-            await context.Database.EnsureCreatedAsync();
+            await context.Database.EnsureCreatedAsync(cancellationToken);
 
-            IOpenIddictApplicationManager manager =
-                scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
+            IOpenIddictApplicationManager manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
 
-            if (await manager.FindByClientIdAsync("console") is null)
+            if (await manager.FindByClientIdAsync("console", cancellationToken) is null)
             {
                 await manager.CreateAsync(new OpenIddictApplicationDescriptor
                 {
@@ -35,9 +36,10 @@ namespace Quorra.Utilities
                     Permissions =
                     {
                         OpenIddictConstants.Permissions.Endpoints.Token,
-                        OpenIddictConstants.Permissions.GrantTypes.ClientCredentials
+                        OpenIddictConstants.Permissions.GrantTypes.ClientCredentials,
+                        OpenIddictConstants.Permissions.Prefixes.Scope + "api"
                     }
-                });
+                }, cancellationToken);
             }
         }
 

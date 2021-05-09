@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quorra.EntityFramework;
 
 namespace Quorra.EntityFramework.Migrations
 {
     [DbContext(typeof(QuorraDbContext))]
-    partial class QuorraDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210509141449_OpenIddictV1")]
+    partial class OpenIddictV1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

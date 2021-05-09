@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -12,6 +13,8 @@ using Quorra.EntityFramework.Identity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using OpenIddict.Server.AspNetCore;
+using Quorra.Utilities;
 
 namespace Quorra
 {
@@ -31,7 +34,7 @@ namespace Quorra
             services.AddDbContext<QuorraDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                options.UseOpenIddict();
+                options.UseOpenIddict<Guid>();
             });
             
             services.AddIdentity<QuorraUser, QuorraRole>()
@@ -83,6 +86,14 @@ namespace Quorra
                     options.AddDevelopmentEncryptionCertificate()
                         .AddDevelopmentSigningCertificate();
 
+                    // Encryption and signing of tokens
+                    options
+                        .AddEphemeralEncryptionKey()
+                        .AddEphemeralSigningKey();
+                    
+                    // Register scopes (permissions)
+                    options.RegisterScopes("api");
+                    
                     // Register the ASP.NET Core host and configure the ASP.NET Core options.
                     options.UseAspNetCore()
                         .EnableTokenEndpointPassthrough();
@@ -97,6 +108,8 @@ namespace Quorra
                     // Register the ASP.NET Core host.
                     options.UseAspNetCore();
                 });
+            
+            services.AddHostedService<Worker>();
             
             // Controllers / SerializerSettings
             services.AddControllersWithViews()
@@ -114,6 +127,13 @@ namespace Quorra
                     opts.SerializerSettings.Converters.Add(new StringEnumConverter());
                 });
             
+            
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                {
+                    options.LoginPath = "/account/login";
+                });
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
         }
