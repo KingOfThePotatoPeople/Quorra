@@ -89,8 +89,9 @@ namespace Quorra
                     // Encryption and signing of tokens
                     options
                         .AddEphemeralEncryptionKey()
-                        .AddEphemeralSigningKey();
-                    
+                        .AddEphemeralSigningKey()
+                        .DisableAccessTokenEncryption();
+
                     // Register scopes (permissions)
                     options.RegisterScopes("api");
                     
