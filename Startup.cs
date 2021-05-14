@@ -75,8 +75,13 @@ namespace Quorra
                 // Register the OpenIddict server components.
                 .AddServer(options =>
                 {
+
+                    options.AllowAuthorizationCodeFlow().RequireProofKeyForCodeExchange();
+                    
                     // Enable the token endpoint.
-                    options.SetTokenEndpointUris("/connect/token");
+                    options
+                        .SetAuthorizationEndpointUris("/connect/authorize")
+                        .SetTokenEndpointUris("/connect/token");
 
                     // Enable the client credentials flow.
                     options.AllowClientCredentialsFlow();
@@ -96,7 +101,8 @@ namespace Quorra
                     
                     // Register the ASP.NET Core host and configure the ASP.NET Core options.
                     options.UseAspNetCore()
-                        .EnableTokenEndpointPassthrough();
+                        .EnableTokenEndpointPassthrough()
+                        .EnableAuthorizationEndpointPassthrough();
                 })
 
                 // Register the OpenIddict validation components.
