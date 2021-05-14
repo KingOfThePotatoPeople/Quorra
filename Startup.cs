@@ -13,7 +13,6 @@ using Quorra.EntityFramework.Identity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using OpenIddict.Server.AspNetCore;
 using Quorra.Utilities;
 
 namespace Quorra

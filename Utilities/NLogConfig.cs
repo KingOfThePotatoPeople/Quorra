@@ -17,8 +17,8 @@ namespace Quorra.Utilities
         {
 
             // Internal / debugging
-            InternalLogger.LogLevel = LogLevel.Trace;
-            InternalLogger.LogFile = "C:\\Users\\jason\\Desktop\\log.txt";
+            //InternalLogger.LogLevel = LogLevel.Trace;
+            //InternalLogger.LogFile = "C:\\Users\\jason\\Desktop\\log.txt";
 
             // Get appsettings
             IConfigurationBuilder builder = new ConfigurationBuilder()

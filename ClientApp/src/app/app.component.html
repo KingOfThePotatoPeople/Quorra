@@ -1,6 +1,33 @@
-<body>
+<!-- Page -->
+<div class="page">
+
+  <!-- Navigation component -->
   <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
+
+  <!-- Main-content -->
+  <div class="main-content horizontal-content">
+
+    <!-- Container-fluid -->
+    <div class="container">
+
+      <!-- Main-content-body -->
+      <div class="main-content-body">
+
+        <!-- header-title -->
+        <div class="header-title">
+          <div class="mb-0 mb-lg-0 mb-xl-0">
+            <h4 class="mb-2">Quorra Dashboard</h4>
+            <div class="main-content-breadcrumb"> <span>Dashboard</span> <span>Quorra</span> </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
-</body>
+
+</div>
+
+<!--- Back-to-top -->
+<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+
+<router-outlet></router-outlet>
