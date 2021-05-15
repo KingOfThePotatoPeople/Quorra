@@ -13,6 +13,7 @@ using Quorra.EntityFramework.Identity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using OpenIddict.Abstractions;
 using Quorra.Utilities;
 
 namespace Quorra
@@ -76,7 +77,11 @@ namespace Quorra
                 .AddServer(options =>
                 {
 
-                    options.AllowAuthorizationCodeFlow().RequireProofKeyForCodeExchange();
+                    options
+                        .AllowAuthorizationCodeFlow()
+                        .RequireProofKeyForCodeExchange()
+                        .AllowClientCredentialsFlow()
+                        .AllowRefreshTokenFlow();
                     
                     // Enable the token endpoint.
                     options
@@ -99,6 +104,7 @@ namespace Quorra
 
                     // Register scopes (permissions)
                     options.RegisterScopes("api");
+                    options.RegisterScopes(OpenIddictConstants.Scopes.OfflineAccess);
                     
                     // Register the ASP.NET Core host and configure the ASP.NET Core options.
                     options.UseAspNetCore()

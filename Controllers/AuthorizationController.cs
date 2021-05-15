@@ -41,12 +41,20 @@ namespace Quorra.Controllers
                 identity.AddClaim("some-claim", "some-value", OpenIddictConstants.Destinations.AccessToken);
 
                 claimsPrincipal = new ClaimsPrincipal(identity);
-
-                claimsPrincipal.SetScopes(request.GetScopes());
+                
+                claimsPrincipal.SetScopes(new []
+                    {
+                        OpenIddictConstants.Scopes.OfflineAccess
+                    }.Intersect(request.GetScopes()));
             }
             else if (request.IsAuthorizationCodeGrantType())
             {
                 // Retrieve the claims principal stored in the authorization code
+                claimsPrincipal = (await HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme)).Principal;
+            }
+            else if (request.IsRefreshTokenGrantType())
+            {
+                // Retrieve the claims principal stored in the refresh token.
                 claimsPrincipal = (await HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme)).Principal;
             }
             else
@@ -94,7 +102,10 @@ namespace Quorra.Controllers
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
             // Set requested scopes (this is not done automatically)
-            claimsPrincipal.SetScopes(request.GetScopes());
+            claimsPrincipal.SetScopes(new []
+            {
+                OpenIddictConstants.Scopes.OfflineAccess
+            }.Intersect(request.GetScopes()));
 
             // Signing in with the OpenIddict authentication scheme trigger OpenIddict to issue a code (which can be exchanged for an access token)
             return SignIn(claimsPrincipal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
