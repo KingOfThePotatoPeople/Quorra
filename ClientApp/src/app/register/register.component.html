@@ -1,1 +1,27 @@
-<p>register works! <fa-icon [icon]="faCoffee"></fa-icon></p>
+<div class="col-md-12">
+  <div class="row">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="col-md-6">
+        <label>
+          Name:
+          <input formControlName="name" class="form-control-sm" type="text">
+        </label>
+      </div>
+      <div class="col-md-6">
+        <label>
+          Email:
+          <input formControlName="email" class="form-control-sm" type="email">
+        </label>
+      </div>
+      <div class="col-md-6">
+        <label>
+          Password:
+          <input formControlName="password" class="form-control-sm" type="password">
+        </label>
+      </div>
+      <div class="col-md-12">
+        <button type="submit" class="btn-sm btn-success" [disabled]="!registerForm.valid">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
