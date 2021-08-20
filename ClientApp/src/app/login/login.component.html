@@ -1,0 +1,23 @@
+<div class="col-md-12">
+  <div class="row">
+    <form [formGroup]="signInForm">
+      <fieldset>
+        <legend>Login</legend>
+        <div class="form-field">
+          <label>Email:</label>
+          <input name="email" formControlName="email" value="kingofthepotatopeople@live.co.uk">
+        </div>
+        <div class="form-field">
+          <label>Password:</label>
+          <input name="password" formControlName="password"
+                 type="password">
+        </div>
+      </fieldset>
+      <div class="form-buttons">
+        <button class="button button-primary"
+                (click)="onSubmit()">Login
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
