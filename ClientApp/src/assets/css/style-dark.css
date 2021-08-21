@@ -10,7 +10,7 @@
 Project        :   Admix - HTML5 Bootstrap Admin Template
 Version        :   V.1
 Create Date    :   23/07/20
-Copyright      :   Spruko Technologies Private Limited 
+Copyright      :   Spruko Technologies Private Limited
 Author         :   SprukoSoft
 Author URL     :   https://themeforest.net/user/sprukosoft
 Support	       :   support@spruko.com
@@ -3606,9 +3606,9 @@ body.dark-theme {
 }
 
 .dark-theme .bg-image {
-    background-image: url(../img/photos/bg-login2.jpg);
+    background-image: url(../img/games/quorra-tron.jpg);
     background-size: cover;
-    background-position: center center;
+    background-position: right center;
 }
 
 @media (max-width: 969px) and (min-width: 768px) {

@@ -4,7 +4,7 @@
 Project        :   ADMIX - HTML5 Bootstrap Admin Template
 Version        :   V.1
 Create Date    :   24/05/20
-Copyright      :   Spruko Technologies Private Limited 
+Copyright      :   Spruko Technologies Private Limited
 Author         :   SprukoSoft
 Author URL     :   https://themeforest.net/user/sprukosoft
 Support	       :   support@spruko.com
@@ -80210,7 +80210,7 @@ pre {
 
 .bg-image:before {
     content: '';
-    background: rgba(40, 92, 247, 0.9);
+    background: rgba(40, 92, 247, 0.7);
     left: 0;
     top: 0;
     right: 0;
