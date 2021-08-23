@@ -81,7 +81,9 @@ namespace Quorra
                         .AllowAuthorizationCodeFlow()
                         .RequireProofKeyForCodeExchange()
                         .AllowClientCredentialsFlow()
-                        .AllowRefreshTokenFlow();
+                        .AllowRefreshTokenFlow()
+                        .UseReferenceAccessTokens()
+                        .UseReferenceRefreshTokens();
                     
                     // Enable the token endpoint.
                     options
@@ -121,6 +123,9 @@ namespace Quorra
 
                     // Register the ASP.NET Core host.
                     options.UseAspNetCore();
+                    
+                    // Token entry validation
+                    options.EnableTokenEntryValidation();
                 });
             
             services.AddHostedService<Worker>();
