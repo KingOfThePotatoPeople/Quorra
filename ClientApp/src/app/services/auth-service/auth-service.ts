@@ -53,7 +53,7 @@ export class AuthService {
     this.authModel.username = user.email;
     this.authModel.password = user.password;
 
-    console.log(this.authModel);
+    //console.log(this.authModel);
 
     return this.http.post<AuthModel>(`${this.endpoint}/connect/token`, this.setHttpOptions(this.authModel), {headers: this.headers})
       .subscribe((res: any) => {

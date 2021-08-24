@@ -1,8 +1,10 @@
 using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +16,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using OpenIddict.Abstractions;
+using OpenIddict.Validation.AspNetCore;
 using Quorra.Utilities;
+using Quorra.Utilities.Filters;
 
 namespace Quorra
 {
@@ -152,6 +156,24 @@ namespace Quorra
                 {
                     options.LoginPath = "/account/login";
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .AddAuthenticationSchemes(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)
+                    .Build();
+            });
+            
+            
+            // Add Filters
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter());
+                options.Filters.Add(new ValidateModelAttribute());
+                options.Filters.Add(new GuardNullAttribute());
+            });
+            
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
