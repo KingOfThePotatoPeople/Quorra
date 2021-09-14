@@ -1,0 +1,50 @@
+<!-- Page -->
+<div class="page">
+
+  <!-- Navigation component -->
+  <app-nav-menu></app-nav-menu>
+
+  <!-- Main-content -->
+  <div class="main-content horizontal-content">
+
+    <!-- Container-fluid -->
+    <div class="container">
+
+      <!-- Main-content-body -->
+      <div class="main-content-body">
+
+        <!-- header-title -->
+        <div class="header-title">
+          <div class="mb-0 mb-lg-0 mb-xl-0">
+            <h4 class="mb-2">Event Log</h4>
+            <div class="main-content-breadcrumb"> <span>Quorra</span> <span>Event Log</span> </div>
+          </div>
+        </div>
+
+        <p-table [value]="logs" responsiveLayout="scroll">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Logged</th>
+              <th>Level</th>
+              <th>Logger</th>
+              <th>Message</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.logged}}</td>
+              <td>{{data.level}}</td>
+              <td>{{data.logger}}</td>
+              <td>{{data.message}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!--- Back-to-top -->
+<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>

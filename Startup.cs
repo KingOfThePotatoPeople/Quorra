@@ -17,6 +17,8 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using OpenIddict.Abstractions;
 using OpenIddict.Validation.AspNetCore;
+using Quorra.Interfaces;
+using Quorra.Services;
 using Quorra.Utilities;
 using Quorra.Utilities.Filters;
 
@@ -133,6 +135,9 @@ namespace Quorra
                 });
             
             services.AddHostedService<Worker>();
+
+            // Scoped
+            services.AddScoped<ILogService, LogService>();
             
             // Controllers / SerializerSettings
             services.AddControllersWithViews()
@@ -169,7 +174,7 @@ namespace Quorra
             // Add Filters
             services.AddMvc(options =>
             {
-                options.Filters.Add(new AuthorizeFilter());
+                //options.Filters.Add(new AuthorizeFilter());
                 options.Filters.Add(new ValidateModelAttribute());
                 options.Filters.Add(new GuardNullAttribute());
             });

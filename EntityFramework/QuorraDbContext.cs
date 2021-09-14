@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using OpenIddict.EntityFrameworkCore.Models;
 using Quorra.EntityFramework.Entities;
 using Quorra.EntityFramework.Identity;
 
@@ -20,7 +21,8 @@ namespace Quorra.EntityFramework
         // Audit / Event Log
         public DbSet<EventLog> EventLog { get; set; }
         
-        
+        //public DbSet<OpenIddictEntityFrameworkCoreToken<Guid>> OpenIddictTokens { get; set; }
+
         // ----------------------------------------------------------------
         //  ON CONFIGURING
         // ----------------------------------------------------------------

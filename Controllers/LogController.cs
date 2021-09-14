@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using OpenIddict.Server.AspNetCore;
+using Quorra.Interfaces;
 
 namespace Quorra.Controllers
 {
@@ -15,6 +16,12 @@ namespace Quorra.Controllers
 
 
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private readonly ILogService _logService;
+
+        public LogController(ILogService logService)
+        {
+            _logService = logService;
+        }
 
 
         // ----------------------------------------------------------------
@@ -27,7 +34,7 @@ namespace Quorra.Controllers
         {
             try
             {
-                return Ok("Hello");
+                return Ok(_logService.GetAuthLogs());
             }
             catch (Exception e)
             {
